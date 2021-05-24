@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typing Test</title>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		h1{
+			text-align: center;
+			color: #f200c1;
+			padding-left: -50px;
+			font-size: 2.9em;
+		}
+		.container1{
+			width: 80%;
+			height: 50px;
+			margin-left: 80px;
+			color: #44cc44;
+		}
+		.inbox{
+			width: 80%;
+			margin: auto;
+			margin-left: 100px;
+		}
+		#ipt{
+			background-color: black;
+			color: white;
+			padding: 10px;
+			font-size: 1.2em;
+
+		}
+		#btn{
+			padding: 20px;
+			
+			margin-left: 475px;
+		}
+		button{
+			padding: 5px 10px 5px 10px ;
+			font-size: 1.3em;
+			border: 3px;
+			border-radius: 5px;
+		}
+		button:hover{
+			background-color: grey;
+			color: white;
+		}
+		body{
+			margin-top: 100px;
+			margin-left: 100px;
+			background-color: indigo;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container">
+		<h1>Test Your Typing Speed Here!</h1><br><br>
+		<div class="container1">
+		<h2 id="msg"> </h2>
+	</div>
+		<br><br>
+		<br><br>
+		<div class="inbox">
+			<textarea id="ipt" rows="10" cols="100"></textarea>
+		</div>
+		<div id="btn">
+			<button id="bttn">Start</button>
+		</div>
+	</div>
+
+<script>
+	let setmsgs=["The basic technique stands contrast to hunt and peck typing which the typist keeps their eyes on the source copy at all times",
+				"Typing is the processing of writing or inputting text by pressing keys on a typewriter",
+				"It can be distinguished from other means of text input such as handwriting and speech recognition",
+				"User interface features such as spell checker and autocomplete serve to facilitate and speed up typing and to prevent or correct errors the typist may make",
+				"A computer is a machine that can be programmed to carry out sequences of arithmetic or logical operations automatically.",
+				"A broad range of industrial and consumer products use computers as control systems. Simple special-purpose devices like microwave ovens and remote controls are included.",
+				"The origins of the Internet date back to the development of packet switching and research commissioned by the United States Department of Defense in the 1960s to enable time-sharing of computers.",
+				"The linking of commercial networks and enterprises by the early 1990s marked the beginning of the transition to the modern Internet,[3] and generated a sustained exponential growth.",
+				"The Internet has no single centralized governance in either technological implementation or policies for access and usage; each constituent network sets its own policies",
+				"Users usually access social media services via web-based apps on desktops and laptops, or download services that offer social media functionality to their mobile devices."
+				];
+
+	const msg= document.getElementById('msg');
+	const ipt = document.getElementById('ipt');
+	const btn= document.getElementById('bttn');
+	let start_time, end_time;
+	btn.addEventListener('click',function(){
+		if(this.innerText =='Start'){
+			ipt.disabled = false;
+			playgame();
+		}
+		else if(this.innerText == 'Done'){
+			ipt.disabled =true;
+			btn.innerText = "Start";
+			endgame();
+
+		}
+	})
+
+
+		function playgame(){
+		let round = Math.floor(Math.random()*setmsgs.length);
+		msg.innerText = setmsgs[round];
+		let date = new Date();
+		start_time = date.getTime();
+		btn.innerText = "Done";
+	}
+
+	function endgame(){
+		let date = new Date();
+		end_time = date.getTime();
+		let total_time= (end_time-start_time)/1000;
+		console.log(total_time);
+		let total_str = ipt.value;
+		let wordscount = word_count(total_str);
+		let speed = Math.round((wordscount/total_time)*60);
+		let final_msg = "you typed total words at "+speed+" words per minute. ";
+		final_msg+= compare_words(msg.innerText,total_str);
+		msg.innerText = final_msg;
+	}
+
+	function compare_words(str1, str2)
+	{
+	
+
+		let words1 = str1.split(" ");
+		let words2 = str2.split(" ");
+		let count = 0;
+		if(str2.length==0)
+		{
+			count=0;
+		}
+		
+		else{
+		words1.forEach(function(item,index){
+			if(item == words2[index]){
+				count++;
+			}
+		})
+
+		}
+		let error_words = (words1.length-count);
+		return (count+" correct out of "+words1.length+" words and the total number of errors are "+error_words+".");
+	}
+
+	const word_count = (str) => {
+		let response = str.split(" ").length;
+		return response;
+	}
+</script>
+
+
+</body>
+</html>
